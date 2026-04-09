@@ -1,0 +1,7 @@
+Data,Produto,Categoria,Quantidade,Preco,Regiao
+2024-01-01,Notebook,Eletrônicos,2,3500,Sudeste
+2024-01-02,Celular,Eletrônicos,3,2000,Sul
+2024-01-03,Cadeira,Móveis,5,500,Nordeste
+2024-01-04,Mesa,Móveis,2,1200,Sudeste
+2024-01-05,Fone,Eletrônicos,10,150,Norte
+2024-01-06,Monitor,Eletrônicos,4,900,Sul

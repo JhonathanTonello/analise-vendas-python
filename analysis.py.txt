@@ -1,0 +1,112 @@
+# ==============================
+# 📦 IMPORTAÇÃO DAS BIBLIOTECAS
+# ==============================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# estilo dos gráficos
+sns.set(style="whitegrid")
+
+# ==============================
+# 📥 CARREGAMENTO DOS DADOS
+# ==============================
+
+df = pd.read_csv("data/vendas.csv")
+
+print("📊 Dados carregados:")
+print(df.head())
+
+# ==============================
+# 🧹 TRATAMENTO DE DADOS
+# ==============================
+
+# converter coluna de data
+df["Data"] = pd.to_datetime(df["Data"])
+
+# criar coluna de faturamento
+df["Faturamento"] = df["Quantidade"] * df["Preco"]
+
+# verificar valores nulos
+print("\n🔍 Valores nulos:")
+print(df.isnull().sum())
+
+# ==============================
+# 📊 ANÁLISE EXPLORATÓRIA
+# ==============================
+
+# faturamento total
+faturamento_total = df["Faturamento"].sum()
+print(f"\n💰 Faturamento Total: R$ {faturamento_total:.2f}")
+
+# faturamento por categoria
+faturamento_categoria = df.groupby("Categoria")["Faturamento"].sum()
+print("\n📦 Faturamento por Categoria:")
+print(faturamento_categoria)
+
+# faturamento por região
+faturamento_regiao = df.groupby("Regiao")["Faturamento"].sum()
+print("\n🌎 Faturamento por Região:")
+print(faturamento_regiao)
+
+# produtos mais vendidos
+produtos_vendidos = df.groupby("Produto")["Quantidade"].sum().sort_values(ascending=False)
+print("\n🏆 Produtos Mais Vendidos:")
+print(produtos_vendidos)
+
+# ==============================
+# 📈 VISUALIZAÇÕES
+# ==============================
+
+# gráfico 1
+plt.figure()
+faturamento_categoria.plot(kind="bar")
+plt.title("Faturamento por Categoria")
+plt.ylabel("Faturamento")
+plt.xlabel("Categoria")
+plt.xticks(rotation=45)
+plt.show()
+
+# gráfico 2
+plt.figure()
+faturamento_regiao.plot(kind="bar")
+plt.title("Faturamento por Região")
+plt.ylabel("Faturamento")
+plt.xlabel("Região")
+plt.xticks(rotation=45)
+plt.show()
+
+# gráfico 3
+plt.figure()
+produtos_vendidos.plot(kind="bar")
+plt.title("Produtos Mais Vendidos")
+plt.ylabel("Quantidade")
+plt.xlabel("Produto")
+plt.xticks(rotation=45)
+plt.show()
+
+# ==============================
+# 📅 ANÁLISE TEMPORAL
+# ==============================
+
+vendas_por_dia = df.groupby("Data")["Faturamento"].sum()
+
+plt.figure()
+vendas_por_dia.plot()
+plt.title("Faturamento ao Longo do Tempo")
+plt.ylabel("Faturamento")
+plt.xlabel("Data")
+plt.show()
+
+# ==============================
+# 🔍 INSIGHTS
+# ==============================
+
+top_produto = produtos_vendidos.idxmax()
+top_regiao = faturamento_regiao.idxmax()
+
+print("\n📌 INSIGHTS:")
+print(f"Produto mais vendido: {top_produto}")
+print(f"Região com maior faturamento: {top_regiao}")
+print(f"Faturamento total: R$ {faturamento_total:.2f}")
